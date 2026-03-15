@@ -28,7 +28,7 @@ INNER JOIN
 $respuesta = mysqli_query($conexion, $sql);
 ?>
 
-<table class="table table-sm">
+<table class="table table-sm" id="tablaUsuariosDataTable">
 <thead>
     <th>Apellido paterno</th>
     <th>Apellido materno</th>
@@ -95,3 +95,9 @@ while($mostrar = mysqli_fetch_array($respuesta)){
 
 </tbody>
 </table>
+
+<script>
+$(document).ready(function(){
+    $('#tablaUsuariosDataTable').DataTable();
+});
+</script>
