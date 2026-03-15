@@ -31,4 +31,5 @@ if (isset($_SESSION['usuario'])) {
     } else {
         header("location:../index.html");
 }
+
 ?>

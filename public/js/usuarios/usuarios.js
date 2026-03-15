@@ -1,6 +1,7 @@
 $(document).ready(function(){
     $("#tablaUsuariosLoad").load("usuarios/tablaUsuarios.php");
 });
+
 function agregarNuevoUsuario(){
 
     $.ajax({
@@ -28,4 +29,21 @@ function agregarNuevoUsuario(){
     });
 
     return false;
+}
+
+
+function obtenerDatosUsuario(idUsuario){
+
+    $.ajax({
+        type: "POST",
+        data: "idUsuario=" + idUsuario,
+        url: "../procesos/usuarios/crud/obtenerDatosUsuario.php",
+        success:function(respuesta){
+
+            respuesta = jQuery.parseJSON(respuesta);
+            console.log(respuesta);
+
+        }
+    });
+
 }
