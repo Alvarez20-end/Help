@@ -91,7 +91,10 @@ $respuesta = mysqli_query($conexion, $sql);
     </td>
 
     <td>
-        <button class="btn btn-warning btn-sm">
+        <button class="btn btn-warning btn-sm"
+        data-toggle="modal"
+        data-target="#modalActualizarUsuarios"
+        onclick="obtenerDatosUsuario('<?php echo $mostrar['idUsuario']; ?>')">
             Editar
         </button>
     </td>

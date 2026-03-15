@@ -21,6 +21,7 @@ if (isset($_SESSION['usuario'])) {
 
 <?php
     include "usuarios/modalAgregar.php";
+    include "usuarios/modalActualizar.php";
     include "footer.php";
 ?>
 

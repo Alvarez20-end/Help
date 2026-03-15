@@ -1,11 +1,11 @@
 <!-- Modal -->
-<form id="frmAgregarUsuario" method="POST" onsubmit="return agregarNuevoUsuario()">
-<div class="modal fade" id="modalAgregarUsuarios" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<form id="frmActrualizarUsuario" method="POST" onsubmit="return actualizarUsuario()">
+<div class="modal fade" id="modalActualizarUsuarios" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog modal-lg" role="document">
 <div class="modal-content">
 
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar nuevo usuario</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Actualizar usuariou</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#modalAgregarUsuarios').modal('hide')">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -16,16 +16,16 @@
         <div class="row">
 
             <div class="col-sm-4">
-                <label for="paterno">Apellido paterno</label>
-                <input type="text" class="form-control" id="paterno" name="paterno" required>
+                <label for="paternou">Apellido paternou</label>
+                <input type="text" class="form-control" id="paternou" name="paternou" required>
             </div>
             <div class="col-sm-4">
-                <label for="materno">Apellido materno</label>
-                <input type="text" class="form-control" id="materno" name="materno" required>
+                <label for="maternou">Apellido maternou</label>
+                <input type="text" class="form-control" id="maternou" name="maternou" required>
             </div>
             <div class="col-sm-4">
-                <label for="nombre">nombre</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                <label for="nombreu">nombreu</label>
+                <input type="text" class="form-control" id="nombreu" name="nombreu" required>
             </div>
 
         </div>
@@ -33,20 +33,20 @@
         <div class="row">
 
             <div class="col-sm-4">
-                <label for="fechaNacimiento">fecha de nacimiento</label>
-                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento">
+                <label for="fechaNacimientou">fecha de nacimiento</label>
+                <input type="date" class="form-control" id="fechaNacimientou" name="fechaNacimientou">
             </div>
             <div class="col-sm-4">
-                <label for="sexo">sexo</label>
-                <select class="form-control" id="sexo" name="sexo" required>
+                <label for="sexou">sexou</label>
+                <select class="form-control" id="sexou" name="sexou" required>
                     <option value=""></option>
                     <option value="F">femenino</option>
                     <option value="M">masculino</option>
                 </select>
             </div>
             <div class="col-sm-4">
-                <label for="telefono">telefono</label>
-                <input type="text" class="form-control" id="telefono" name="telefono">
+                <label for="telefonou">telefonou</label>
+                <input type="text" class="form-control" id="telefonou" name="telefonou">
             </div>
 
         </div>
@@ -54,12 +54,12 @@
         <div class="row">
 
             <div class="col-sm-4">
-                <label for="correo">correo</label>
-                <input type="mail" class="form-control" id="correo" name="correo">
+                <label for="correou">correou</label>
+                <input type="mail" class="form-control" id="correou" name="correou">
             </div>
             <div class="col-sm-4">
-                <label for="usuario">usuario</label>
-                <input type="text" class="form-control" id="usuario" name="usuario">
+                <label for="usuariou">usuariou</label>
+                <input type="text" class="form-control" id="usuariou" name="usuariou">
             </div>
             <div class="col-sm-4">
                 <label for="password">password</label>
@@ -70,8 +70,8 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <label for="idRol">Rol de usuario</label>
-                <select name="idRol" id="idRol" class="form-control">
+                <label for="idRolu">Rol de usuariou</label>
+                <select name="idRolu" id="idRolu" class="form-control">
                     <option value="1">Cliente</option>
                     <option value="2">Administrador</option>
                 </select>
@@ -80,16 +80,15 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <label for="ubicacion">Ubicacion</label>
-                <textarea name="ubicacion" id="ubicacion" class="form-control"></textarea>
+                <label for="ubicacionu">Ubicacion</label>
+                <textarea name="ubicacionu" id="ubicacionu" class="form-control"></textarea>
             </div>
         </div>
 
     </div>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#modalAgregarUsuarios').modal('hide')">Cerrar</button>
-        <button type="submit" class="btn btn-primary">agregar</button>
+        <button type="submit" class="btn btn-warning">Actualizar</button>
     </div>
 
 </div>
