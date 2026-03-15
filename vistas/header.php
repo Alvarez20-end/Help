@@ -43,7 +43,7 @@
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">editar datos</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">salir</a></li>
+                <li><a class="dropdown-item" href="../procesos/usuarios/login/salir.php">salir</a></li>
             </ul>
             </li>
         </ul>
