@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,14 +20,16 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ms-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="inicio.php">Home</a>
+                <a class="nav-link" href="inicio.php">Inicio</a>
             </li>
+            <?php if(isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] == 1) { ?>
             <li class="nav-item">
                 <a class="nav-link" href="misDispositivos.php">mis dispositivos</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="misReportes.php">reportes soporte</a>
             </li>
+            <?php } else if(isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] == 2) { ?>
             <!--de aqio son los reportes del admin-->
             <li class="nav-item">
                 <a class="nav-link" href="usuarios.php">usuarios</a>
@@ -36,9 +40,10 @@
             <li class="nav-item">
             <a class="nav-link" href="reportes.php">reportes</a>
             </li>
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                usuario
+            <?php } ?>
+                <li class="nav-item dropdown" >
+                <a style="color:red" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Usuario: <?php echo $_SESSION['usuario']['nombre']; ?>
             </a>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">editar datos</a></li>
