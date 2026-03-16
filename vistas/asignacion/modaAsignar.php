@@ -1,44 +1,12 @@
-<?php
-include "header.php";
+<!-- Modal -->
+<div class="modal fade" id="modalAsignarEquipo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-if (isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] == 2) {
-
-include "../clases/Conexion.php";
-$con = new Conexion();
-$conexion = $con->conectar();
-?>
-
-<div class="container">
-    <div class="card border-0 shadow my-5">
-        <div class="card-body p-5">
-
-            <h1 class="fw-light">Asignación de equipos</h1>
-
-            <p class="lead">
-                <button class="btn btn-primary"
-                        data-toggle="modal"
-                        data-target="#modalAsignarEquipo">
-                    Asignar Equipo
-                </button>
-            </p>
-
-            <hr>
-
-            <div id="tablaAsignacionesLoad"></div>
-
-        </div>
-    </div>
-</div>
-
-
-<!-- MODAL -->
-<div class="modal fade" id="modalAsignarEquipo" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title">Asignar equipo</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Asignar equipo</h5>
 
         <button type="button" class="close" data-dismiss="modal">
           <span>&times;</span>
@@ -76,7 +44,7 @@ $conexion = $con->conectar();
           </div>
 
 
-          <div class="row mt-3">
+          <div class="row">
 
             <div class="col-sm-4">
               <label>Marca</label>
@@ -96,7 +64,7 @@ $conexion = $con->conectar();
           </div>
 
 
-          <div class="row mt-3">
+          <div class="row">
 
             <div class="col-sm-12">
               <label>Descripcion</label>
@@ -106,7 +74,7 @@ $conexion = $con->conectar();
           </div>
 
 
-          <div class="row mt-3">
+          <div class="row">
 
             <div class="col-sm-4">
               <label>Memoria</label>
@@ -143,17 +111,5 @@ $conexion = $con->conectar();
       </div>
 
     </div>
-
   </div>
 </div>
-
-
-<?php
-include "footer.php";
-?>
-
-<?php
-} else {
-header("location:../index.html");
-}
-?>
