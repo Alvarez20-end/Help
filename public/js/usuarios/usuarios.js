@@ -31,17 +31,27 @@ function agregarNuevoUsuario(){
     return false;
 }
 
-
-function obtenerDatosUsuario(idUsuario){
+function obtenerDatosUsuario(idUsuario) {
 
     $.ajax({
         type: "POST",
         data: "idUsuario=" + idUsuario,
         url: "../procesos/usuarios/crud/obtenerDatosUsuario.php",
-        success:function(respuesta){
+        success:function(respuesta) {
 
             respuesta = jQuery.parseJSON(respuesta);
-            console.log(respuesta);
+
+            $("#idUsuario").val(respuesta['idUsuario']);
+            $("#paternou").val(respuesta['paterno']);
+            $("#maternou").val(respuesta['materno']);
+            $("#nombreu").val(respuesta['nombrePersona']);
+            $("#fechaNacimientou").val(respuesta['fechaNacimiento']);
+            $("#sexou").val(respuesta['sexo']);
+            $("#telefonou").val(respuesta['telefono']);
+            $("#correou").val(respuesta['correo']);
+            $("#usuariou").val(respuesta['nombreUsuario']);
+            $("#idRolu").val(respuesta['idRol']);
+            $("#ubicacionu").val(respuesta['ubicacion']);
 
         }
     });
