@@ -17,11 +17,11 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light static-top mb-5 shadow">
     <div class="container">
         <a class="navbar-brand" href="inicio.php">Help-Desk</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="inicio.php">Inicio</a>
             </li>
@@ -33,7 +33,6 @@
                 <a class="nav-link" href="misReportes.php">reportes soporte</a>
             </li>
             <?php } else if(isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] == 2) { ?>
-            <!--de aqio son los reportes del admin-->
             <li class="nav-item">
                 <a class="nav-link" href="usuarios.php">usuarios</a>
             </li>
@@ -45,21 +44,22 @@
             </li>
             <?php } ?>
                 <li class="nav-item dropdown" >
-                <a style="color:red" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a style="color:red" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                 Usuario: <?php echo $_SESSION['usuario']['nombre']; ?>
             </a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">editar datos</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="../procesos/usuarios/login/salir.php">salir</a></li>
-            </ul>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">editar datos</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="../procesos/usuarios/login/salir.php">salir</a>
+            </div>
             </li>
         </ul>
         </div>
     </div>
     </nav>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../public/jquery/jquery.min.js"></script>
+<script src="../public/bootstrap/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

@@ -6,15 +6,19 @@ class Usuarios extends Conexion {
 
     public function loginUsuario($usuario, $password) {
         $conexion = Conexion::conectar();
+
         $sql = "SELECT * FROM t_usuarios 
                 WHERE usuario = '$usuario' AND password = '$password'";
+
         $respuesta = mysqli_query($conexion, $sql);
 
         if (mysqli_num_rows($respuesta) > 0) {
             $datosUsuario = mysqli_fetch_array($respuesta);
+
             $_SESSION['usuario']['nombre'] = $datosUsuario['usuario'];
             $_SESSION['usuario']['id'] = $datosUsuario['id_usuario'];
             $_SESSION['usuario']['rol'] = $datosUsuario['id_rol'];
+
             return 1;
         } else {
             return 0;
@@ -25,18 +29,20 @@ class Usuarios extends Conexion {
 
         $conexion = Conexion::conectar();
 
-        $sql = "INSERT INTO t_persona (paterno,
-                                        materno,
-                                        nombre,
-                                        fecha_nacimiento,
-                                        sexo,
-                                        telefono,
-                                        correo)
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO t_persona (
+                    paterno,
+                    materno,
+                    nombre,
+                    fecha_nacimiento,
+                    sexo,
+                    telefono,
+                    correo
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         $query = $conexion->prepare($sql);
 
-        $query->bind_param("sssssss",
+        $query->bind_param(
+            "sssssss",
             $datos['paterno'],
             $datos['materno'],
             $datos['nombre'],
@@ -46,9 +52,8 @@ class Usuarios extends Conexion {
             $datos['correo']
         );
 
-        $respuesta = $query->execute();
+        $query->execute();
         $idPersona = $query->insert_id;
-
         $query->close();
 
         return $idPersona;
@@ -57,21 +62,22 @@ class Usuarios extends Conexion {
     public function agregarNuevoUsuario($datos) {
 
         $conexion = Conexion::conectar();
-
         $idPersona = self::agregarNuevaPersona($datos);
 
         if ($idPersona > 0) {
 
-            $sql = "INSERT INTO t_usuarios (id_rol,
-                                            id_persona,
-                                            usuario,
-                                            password,
-                                            ubicacion)
-                    VALUES (?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO t_usuarios (
+                        id_rol,
+                        id_persona,
+                        usuario,
+                        password,
+                        ubicacion
+                    ) VALUES (?, ?, ?, ?, ?)";
 
             $query = $conexion->prepare($sql);
 
-            $query->bind_param("iisss",
+            $query->bind_param(
+                "iisss",
                 $datos['idRol'],
                 $idPersona,
                 $datos['usuario'],
@@ -84,9 +90,7 @@ class Usuarios extends Conexion {
             return $respuesta;
 
         } else {
-
             return 0;
-
         }
     }
 
@@ -94,29 +98,27 @@ class Usuarios extends Conexion {
 
         $conexion = Conexion::conectar();
 
-        $sql = "
-        SELECT
-            usuarios.id_usuario AS idUsuario,
-            usuarios.usuario AS nombreUsuario,
-            roles.nombre AS rol,
-            usuarios.id_rol AS idRol,
-            usuarios.ubicacion AS ubicacion,
-            usuarios.activo AS estatus,
-            usuarios.id_persona AS idPersona,
-            persona.nombre AS nombrePersona,
-            persona.paterno AS paterno,
-            persona.materno AS materno,
-            persona.fecha_nacimiento AS fechaNacimiento,
-            persona.sexo AS sexo,
-            persona.correo AS correo,
-            persona.telefono AS telefono
-        FROM
-            t_usuarios AS usuarios
-        INNER JOIN
-            t_cat_roles AS roles ON usuarios.id_rol = roles.id_rol
-        INNER JOIN
-            t_persona AS persona ON usuarios.id_persona = persona.id_persona
-        WHERE usuarios.id_usuario = '$idUsuario'";
+        $sql = "SELECT
+                    usuarios.id_usuario AS idUsuario,
+                    usuarios.usuario AS nombreUsuario,
+                    roles.nombre AS rol,
+                    usuarios.id_rol AS idRol,
+                    usuarios.ubicacion AS ubicacion,
+                    usuarios.activo AS estatus,
+                    usuarios.id_persona AS idPersona,
+                    persona.nombre AS nombrePersona,
+                    persona.paterno AS paterno,
+                    persona.materno AS materno,
+                    persona.fecha_nacimiento AS fechaNacimiento,
+                    persona.sexo AS sexo,
+                    persona.correo AS correo,
+                    persona.telefono AS telefono
+                FROM t_usuarios AS usuarios
+                INNER JOIN t_cat_roles AS roles 
+                    ON usuarios.id_rol = roles.id_rol
+                INNER JOIN t_persona AS persona 
+                    ON usuarios.id_persona = persona.id_persona
+                WHERE usuarios.id_usuario = '$idUsuario'";
 
         $respuesta = mysqli_query($conexion, $sql);
         $usuario = mysqli_fetch_array($respuesta);
@@ -141,4 +143,102 @@ class Usuarios extends Conexion {
         return $datos;
     }
 
+    public function actualizarUsuario($datos) {
+
+        $conexion = Conexion::conectar();
+
+        $exitoPersona = self::actualizarPersona($datos);
+
+        if ($exitoPersona) {
+
+            $sql = "UPDATE t_usuarios SET 
+                        id_rol = ?,
+                        usuario = ?,
+                        ubicacion = ?
+                    WHERE id_usuario = ?";
+
+            $query = $conexion->prepare($sql);
+
+            $query->bind_param(
+                "issi",
+                $datos['idRol'],
+                $datos['usuario'],
+                $datos['ubicacion'],
+                $datos['idUsuario']
+            );
+
+            $respuesta = $query->execute();
+            $query->close();
+
+            return $respuesta;
+
+        } else {
+            return 0;
+        }
+    }
+
+    public function actualizarPersona($datos) {
+
+        $conexion = Conexion::conectar();
+
+        $idPersona = self::obtenerIdPersona($datos['idUsuario']);
+
+        if (!$idPersona) {
+            return 0;
+        }
+
+        $sql = "UPDATE t_persona SET 
+                    paterno = ?,
+                    materno = ?,
+                    nombre = ?,
+                    fecha_nacimiento = ?,
+                    sexo = ?,
+                    telefono = ?,
+                    correo = ?
+                WHERE id_persona = ?";
+
+        $query = $conexion->prepare($sql);
+
+        $query->bind_param(
+            "sssssssi",
+            $datos['paterno'],
+            $datos['materno'],
+            $datos['nombre'],
+            $datos['fechaNacimiento'],
+            $datos['sexo'],
+            $datos['telefono'],
+            $datos['correo'],
+            $idPersona
+        );
+
+        $respuesta = $query->execute();
+        $query->close();
+
+        return $respuesta;
+    }
+
+    public function obtenerIdPersona($idUsuario) {
+
+        $conexion = Conexion::conectar();
+
+        $sql = "SELECT
+                    persona.id_persona AS idPersona
+                FROM t_usuarios AS usuarios
+                INNER JOIN t_persona AS persona 
+                    ON usuarios.id_persona = persona.id_persona
+                WHERE usuarios.id_usuario = '$idUsuario'";
+
+        $respuesta = mysqli_query($conexion, $sql);
+
+        if ($respuesta && mysqli_num_rows($respuesta) > 0) {
+
+            $fila = mysqli_fetch_array($respuesta);
+            return $fila['idPersona'];
+
+        } else {
+
+            return 0;
+
+        }
+    }
 }
