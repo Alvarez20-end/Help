@@ -32,6 +32,8 @@ $conexion = $con->conectar();
 
 
 <!-- MODAL -->
+<form id="frmAsignaEquipo" method="POST">
+
 <div class="modal fade" id="modalAsignarEquipo" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
 
@@ -52,24 +54,66 @@ $conexion = $con->conectar();
 
           <div class="row">
 
+            <!-- PERSONA -->
             <div class="col-md-6">
               <div class="form-group">
                 <label>Nombre de persona</label>
 
+                <?php
+                $sql = "SELECT 
+                        id_persona,
+                        CONCAT(paterno,' ',materno,' ',nombre) AS nombre
+                        FROM t_persona
+                        ORDER BY paterno";
+
+                $respuesta = mysqli_query($conexion,$sql);
+                ?>
+
                 <select name="idPersona" id="idPersona" class="form-control">
-                  <option value=""></option>
+
+                  <option value="">Selecciona una opción</option>
+
+                  <?php while($mostrar = mysqli_fetch_array($respuesta)){ ?>
+
+                  <option value="<?php echo $mostrar['id_persona']; ?>">
+                    <?php echo $mostrar['nombre']; ?>
+                  </option>
+
+                  <?php } ?>
+
                 </select>
+
               </div>
             </div>
 
 
+            <!-- TIPO DE EQUIPO -->
             <div class="col-md-6">
               <div class="form-group">
                 <label>Tipo de equipo</label>
 
+                <?php
+                $sql = "SELECT id_equipo, nombre 
+                        FROM t_cat_equipo 
+                        ORDER BY nombre";
+
+                $respuesta = mysqli_query($conexion,$sql);
+                ?>
+
                 <select name="idEquipo" id="idEquipo" class="form-control">
-                  <option value=""></option>
+
+                  <option value="">Selecciona una opción</option>
+
+                  <?php while($mostrar = mysqli_fetch_array($respuesta)){ ?>
+
+                  <option value="<?php echo $mostrar['id_equipo']; ?>">
+                    <?php echo $mostrar['nombre']; ?>
+                  </option>
+
+                  <?php } ?>
+
                 </select>
+
               </div>
             </div>
 
@@ -133,11 +177,11 @@ $conexion = $con->conectar();
       <div class="modal-footer">
 
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Close
+          Cerrar
         </button>
 
-        <button type="button" class="btn btn-primary">
-          Save changes
+        <button type="submit" class="btn btn-primary">
+          Guardar
         </button>
 
       </div>
@@ -147,12 +191,12 @@ $conexion = $con->conectar();
   </div>
 </div>
 
+</form>
+
 
 <?php
 include "footer.php";
-?>
 
-<?php
 } else {
 header("location:../index.html");
 }
