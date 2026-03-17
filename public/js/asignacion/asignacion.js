@@ -3,15 +3,12 @@ $(document).ready(function(){
 });
 
 function cargarTabla(){
-
     $("#tablaAsignacionesLoad").load("asignacion/tablaAsignacion.php", function(){
 
-        // destruir si ya existe
         if ($.fn.DataTable.isDataTable('#tablaAsignacionDataTable')) {
             $('#tablaAsignacionDataTable').DataTable().destroy();
         }
 
-        // inicializar correctamente
         $('#tablaAsignacionDataTable').DataTable({
             responsive: {
                 details: {
@@ -34,11 +31,9 @@ function cargarTabla(){
         });
 
     });
-
 }
 
 function asignarEquipo() {
-
     $.ajax({
         type: "POST",
         data: $('#frmAsignaEquipo').serialize(),
@@ -64,6 +59,50 @@ function asignarEquipo() {
             }
 
         }
+    });
+
+    return false;
+}
+
+function eliminarAsignacion(idAsignacion) {
+
+    Swal.fire({
+        title: 'Estas seguro de eliminar este registro?',
+        text: "Una vez eliminado no podra ser recuperado!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ok'
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            $.ajax({
+                type: "POST",
+                data: "idAsignacion=" + idAsignacion,
+                url: "../procesos/asignacion/eliminarAsignacion.php",
+                success:function(respuesta){
+
+                    respuesta = respuesta.trim();
+
+                    if (respuesta == 1) {
+
+                        cargarTabla();
+
+                        Swal.fire(":D","Eliminado con exito!","success");
+
+                    } else {
+
+                        Swal.fire(":(","Fallo al eliminar! " + respuesta,"error");
+
+                    }
+
+                }
+            });
+
+        }
+
     });
 
     return false;
