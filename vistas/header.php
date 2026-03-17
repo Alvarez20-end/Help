@@ -15,6 +15,8 @@
 <!-- DataTables -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="../public/fontawesome/css/all.css">
+
 
 <title>Help-Desk</title>
 </head>
