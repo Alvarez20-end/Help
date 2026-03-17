@@ -32,7 +32,7 @@ $conexion = $con->conectar();
 
 
 <!-- MODAL -->
-<form id="frmAsignaEquipo" method="POST">
+<form id="frmAsignaEquipo" method="POST" onsubmit="return asignarEquipo()">
 
 <div class="modal fade" id="modalAsignarEquipo" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
@@ -69,9 +69,9 @@ $conexion = $con->conectar();
                 $respuesta = mysqli_query($conexion,$sql);
                 ?>
 
-                <select name="idPersona" id="idPersona" class="form-control">
+                <select name="idPersona" id="idPersona" class="form-control" required>
 
-                  <option value="">Selecciona una opción</option>
+                  <option value="" disabled selected>Selecciona una opción</option>
 
                   <?php while($mostrar = mysqli_fetch_array($respuesta)){ ?>
 
@@ -100,9 +100,9 @@ $conexion = $con->conectar();
                 $respuesta = mysqli_query($conexion,$sql);
                 ?>
 
-                <select name="idEquipo" id="idEquipo" class="form-control">
+                <select name="idEquipo" id="idEquipo" class="form-control" required>
 
-                  <option value="">Selecciona una opción</option>
+                  <option value="" disabled selected>Selecciona una opción</option>
 
                   <?php while($mostrar = mysqli_fetch_array($respuesta)){ ?>
 
@@ -181,7 +181,7 @@ $conexion = $con->conectar();
         </button>
 
         <button type="submit" class="btn btn-primary">
-          Guardar
+          Asignar
         </button>
 
       </div>
@@ -193,10 +193,13 @@ $conexion = $con->conectar();
 
 </form>
 
-
 <?php
 include "footer.php";
+?>
 
+<script src="../public/js/asignacion/asignacion.js"></script>
+
+<?php
 } else {
 header("location:../index.html");
 }
