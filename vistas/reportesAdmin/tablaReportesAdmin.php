@@ -1,11 +1,7 @@
 <?php
-session_start();
 include "../../clases/Conexion.php";
-
 $con = new Conexion();
 $conexion = $con->conectar();
-
-$contador = 1;
 
 $sql = "SELECT
     reporte.id_reporte AS idReporte,
@@ -21,72 +17,63 @@ INNER JOIN t_usuarios AS usuario
 INNER JOIN t_persona AS persona 
     ON usuario.id_persona = persona.id_persona
 INNER JOIN t_cat_equipo AS equipo 
-    ON reporte.id_equipo = equipo.id_equipo";
+    ON reporte.id_equipo = equipo.id_equipo
+    ORDER BY reporte.fecha DESC";
 
 $respuesta = mysqli_query($conexion, $sql);
 ?>
 
-<table class="table table-sm table-bordered" id="tablaReportesAdminDataTable">
+<table id="tablaReportesAdminDataTable" class="table table-sm dt-responsive nowrap" style="width:100%">
     <thead>
-        <th>#</th>
-        <th>Persona</th>
-        <th>Dispositivo</th>
-        <th>Fecha</th>
-        <th>Descripcion</th>
-        <th>Estatus</th>
-        <th>Solucion</th>
-        <th>Eliminar</th>
+        <tr>
+            <th>#</th>
+            <th>Persona</th>
+            <th>Equipo</th>
+            <th>Fecha</th>
+            <th>Descripción</th>
+            <th>Estatus</th>
+            <th>Solución</th>
+            <th>Eliminar</th>
+        </tr>
     </thead>
     <tbody>
-        <?php while ($mostrar = mysqli_fetch_array($respuesta)) { ?>
+        <?php while ($row = mysqli_fetch_array($respuesta)) { ?>
         <tr>
-            <td><?php echo $contador++; ?></td>
-            <td><?php echo $mostrar['nombrePersona']; ?></td>
-            <td><?php echo $mostrar['nombreEquipo']; ?></td>
-            <td><?php echo $mostrar['fecha']; ?></td>
-            <td><?php echo $mostrar['problema']; ?></td>
+            <td><?php echo $row['idReporte']; ?></td>
+            <td><?php echo $row['nombrePersona']; ?></td>
+            <td><?php echo $row['nombreEquipo']; ?></td>
+            <td><?php echo $row['fecha']; ?></td>
+            <td><?php echo $row['problema']; ?></td>
 
-            <!-- ESTATUS -->
             <td>
                 <?php
-                if ($mostrar['estatus'] == 1) {
-                    echo '<span class="badge badge-secondary">Pendiente</span>';
+                if ($row['estatus'] == 0) {
+                    echo '<span class="badge badge-success">Cerrado</span>';
                 } else {
-                    echo '<span class="badge badge-success">Atendido</span>';
+                    echo '<span class="badge badge-primary">Abierto</span>';
                 }
                 ?>
             </td>
 
-            <!-- SOLUCION -->
             <td>
-                <?php if ($mostrar['solucion'] == "") { ?>
-                    <button class="btn btn-info btn-sm"
-                        onclick="obtenerDatosSolucion(<?php echo $mostrar['idReporte']; ?>)"
-                        data-toggle="modal" data-target="#modalAgregarSolucionReporte">
-                        Solucion
-                    </button>
-                <?php } else {
-                    echo $mostrar['solucion'];
-                } ?>
-            </td>
+                <button class="btn btn-info btn-sm"
+                    onclick="obtenerDatosSolucion(<?php echo $row['idReporte']; ?>)"
+                    data-toggle="modal" data-target="#modalAgregarSolucionReporte">
+                    Solución
+                </button>
 
-            <!-- ELIMINAR -->
-            <td>
-                <?php if ($mostrar['solucion'] == "") { ?>
-                    <button class="btn btn-danger btn-sm"
-                        onclick="eliminarReporteAdmin(<?php echo $mostrar['idReporte']; ?>)">
-                        Eliminar
-                    </button>
+                <?php if ($row['solucion'] != "") { ?>
+                    <div><small><?php echo $row['solucion']; ?></small></div>
                 <?php } ?>
             </td>
 
+            <td>
+                <button class="btn btn-danger btn-sm"
+                    onclick="eliminarReporteAdmin(<?php echo $row['idReporte']; ?>)">
+                    Eliminar
+                </button>
+            </td>
         </tr>
         <?php } ?>
     </tbody>
 </table>
-
-<script>
-$(document).ready(function(){
-    $('#tablaReportesAdminDataTable').DataTable();
-});
-</script>
