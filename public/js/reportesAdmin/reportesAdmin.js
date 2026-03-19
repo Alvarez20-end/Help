@@ -34,3 +34,7 @@ function eliminarReporteAdmin(idReporte) {
         }
     });
 }
+
+function obtenerDatosSolucion(idReporte) {
+
+}

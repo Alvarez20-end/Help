@@ -16,6 +16,7 @@ if (isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] == 2) {
 </div>
 
 <?php
+include "reportesAdmin/modalAgregarSolucion.php";
 include "footer.php";
 ?>
 

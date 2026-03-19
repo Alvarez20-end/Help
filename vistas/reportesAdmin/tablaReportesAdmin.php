@@ -46,6 +46,7 @@ $respuesta = mysqli_query($conexion, $sql);
             <td><?php echo $mostrar['fecha']; ?></td>
             <td><?php echo $mostrar['problema']; ?></td>
 
+            <!-- ESTATUS -->
             <td>
                 <?php
                 if ($mostrar['estatus'] == 1) {
@@ -56,16 +57,29 @@ $respuesta = mysqli_query($conexion, $sql);
                 ?>
             </td>
 
-            <td><?php echo $mostrar['solucion']; ?></td>
+            <!-- SOLUCION -->
+            <td>
+                <?php if ($mostrar['solucion'] == "") { ?>
+                    <button class="btn btn-info btn-sm"
+                        onclick="obtenerDatosSolucion(<?php echo $mostrar['idReporte']; ?>)"
+                        data-toggle="modal" data-target="#modalAgregarSolucionReporte">
+                        Solucion
+                    </button>
+                <?php } else {
+                    echo $mostrar['solucion'];
+                } ?>
+            </td>
 
+            <!-- ELIMINAR -->
             <td>
                 <?php if ($mostrar['solucion'] == "") { ?>
                     <button class="btn btn-danger btn-sm"
-                        onclick="eliminarReporteAdmin(<?php echo $mostrar['idReporte'] ?>)">
+                        onclick="eliminarReporteAdmin(<?php echo $mostrar['idReporte']; ?>)">
                         Eliminar
                     </button>
                 <?php } ?>
             </td>
+
         </tr>
         <?php } ?>
     </tbody>
