@@ -67,7 +67,7 @@ $respuesta = mysqli_query($conexion, $sql);
 
     <td>
         <button class="btn btn-success btn-sm">
-            Cambiar password
+            <span class="fas fa-exchange-alt"></span>
         </button>
     </td>
 
