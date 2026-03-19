@@ -1,9 +1,14 @@
 <?php
+session_start();
 include "header.php";
+include "../clases/Conexion.php";
+
+$con = new Conexion();
+$conexion = $con->conectar();
+
 if (isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] == 1) {
 ?>
 
-<!-- Page Content -->
 <div class="container">
     <div class="card border-0 shadow my-5">
         <div class="card-body p-5">
@@ -28,9 +33,16 @@ if (isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] == 1) {
 include "reportesCliente/modalCrearReporte.php";
 include "footer.php";
 ?>
-<script src="../public/js/reportesCliente/reportesCliente.js"></script>
-<?php
 
+<script src="../public/js/reportesCliente/reportesCliente.js"></script>
+
+<script>
+$(document).ready(function(){
+    $('#tablaReporteClienteLoad').load("reportesCliente/tablaReporteCliente.php");
+});
+</script>
+
+<?php
 } else {
     header("location:../index.html");
 }

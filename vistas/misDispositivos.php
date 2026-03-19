@@ -1,9 +1,10 @@
 <?php
+session_start();
 include "header.php";
 
 if (isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] == 1) {
 
-    include "../clases/Asignacion.php";
+    include "../clases/Conexion.php";
     $con = new Conexion();
     $conexion = $con->conectar();
 
@@ -38,9 +39,11 @@ if (isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] == 1) {
 ?>
 
 <div class="container mt-5">
-    <div class="card shadow-lg p-4">
 
-        <h2 class="mb-4">Mis dispositivos</h2>
+    <!-- FONDO BLANCO CENTRAL -->
+    <div class="p-4 bg-white rounded shadow">
+
+        <h2 class="mb-4 text-center">Mis dispositivos</h2>
 
         <div class="row">
 
@@ -48,18 +51,20 @@ if (isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] == 1) {
 
                 <div class="col-md-6 col-lg-4 mb-4">
 
-                    <div class="card h-100 border">
+                    <div class="card h-100 shadow-sm">
 
                         <div class="card-body">
 
-                            <h5>
+                            <h5 class="card-title">
                                 <?php echo $mostrar['imagen']; ?>
                                 <?php echo $mostrar['nombreEquipo']; ?>
                             </h5>
 
-                            <p><?php echo $mostrar['descripcion']; ?></p>
+                            <p class="card-text">
+                                <?php echo $mostrar['descripcion']; ?>
+                            </p>
 
-                            <ul>
+                            <ul class="list-unstyled">
                                 <li><strong>Marca:</strong> <?php echo $mostrar['marca']; ?></li>
                                 <li><strong>Modelo:</strong> <?php echo $mostrar['modelo']; ?></li>
                                 <li><strong>Color:</strong> <?php echo $mostrar['color']; ?></li>
@@ -79,6 +84,7 @@ if (isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] == 1) {
         </div>
 
     </div>
+
 </div>
 
 <?php
