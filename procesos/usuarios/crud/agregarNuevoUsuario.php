@@ -8,6 +8,9 @@ if (!isset($_POST['paterno'])) {
     exit();
 }
 
+// 🔐 encriptar password
+$passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
 $datos = array(
     "paterno" => $_POST['paterno'] ?? '',
     "materno" => $_POST['materno'] ?? '',
@@ -17,7 +20,7 @@ $datos = array(
     "telefono" => $_POST['telefono'] ?? '',
     "correo" => $_POST['correo'] ?? '',
     "usuario" => $_POST['usuario'] ?? '',
-    "password" => $_POST['password'] ?? '',
+    "password" => $passwordHash, // 🔥 aquí ya va encriptado
     "idRol" => $_POST['idRol'] ?? '',
     "ubicacion" => $_POST['ubicacion'] ?? ''
 );

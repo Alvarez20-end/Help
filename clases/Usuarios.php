@@ -86,61 +86,11 @@ class Usuarios extends Conexion {
             );
 
             $respuesta = $query->execute();
-
             return $respuesta;
 
         } else {
             return 0;
         }
-    }
-
-    public function obtenerDatosUsuario($idUsuario) {
-
-        $conexion = Conexion::conectar();
-
-        $sql = "SELECT
-                    usuarios.id_usuario AS idUsuario,
-                    usuarios.usuario AS nombreUsuario,
-                    roles.nombre AS rol,
-                    usuarios.id_rol AS idRol,
-                    usuarios.ubicacion AS ubicacion,
-                    usuarios.activo AS estatus,
-                    usuarios.id_persona AS idPersona,
-                    persona.nombre AS nombrePersona,
-                    persona.paterno AS paterno,
-                    persona.materno AS materno,
-                    persona.fecha_nacimiento AS fechaNacimiento,
-                    persona.sexo AS sexo,
-                    persona.correo AS correo,
-                    persona.telefono AS telefono
-                FROM t_usuarios AS usuarios
-                INNER JOIN t_cat_roles AS roles 
-                    ON usuarios.id_rol = roles.id_rol
-                INNER JOIN t_persona AS persona 
-                    ON usuarios.id_persona = persona.id_persona
-                WHERE usuarios.id_usuario = '$idUsuario'";
-
-        $respuesta = mysqli_query($conexion, $sql);
-        $usuario = mysqli_fetch_array($respuesta);
-
-        $datos = array(
-            'idUsuario' => $usuario['idUsuario'],
-            'nombreUsuario' => $usuario['nombreUsuario'],
-            'rol' => $usuario['rol'],
-            'idRol' => $usuario['idRol'],
-            'ubicacion' => $usuario['ubicacion'],
-            'estatus' => $usuario['estatus'],
-            'idPersona' => $usuario['idPersona'],
-            'nombrePersona' => $usuario['nombrePersona'],
-            'paterno' => $usuario['paterno'],
-            'materno' => $usuario['materno'],
-            'fechaNacimiento' => $usuario['fechaNacimiento'],
-            'sexo' => $usuario['sexo'],
-            'correo' => $usuario['correo'],
-            'telefono' => $usuario['telefono']
-        );
-
-        return $datos;
     }
 
     public function actualizarUsuario($datos) {
@@ -231,14 +181,96 @@ class Usuarios extends Conexion {
         $respuesta = mysqli_query($conexion, $sql);
 
         if ($respuesta && mysqli_num_rows($respuesta) > 0) {
-
             $fila = mysqli_fetch_array($respuesta);
             return $fila['idPersona'];
-
         } else {
-
             return 0;
-
         }
     }
+
+    // 🔥 FUNCIÓN QUE TE FALTABA BIEN HECHA
+    public function resetPassword($datos) {
+
+        $conexion = Conexion::conectar();
+
+        // 🔐 encriptar password
+        $passwordHash = password_hash($datos['password'], PASSWORD_DEFAULT);
+
+        $sql = "UPDATE t_usuarios 
+                SET password = ?
+                WHERE id_usuario = ?";
+
+        $query = $conexion->prepare($sql);
+
+        $query->bind_param(
+            "si",
+            $passwordHash,
+            $datos['idUsuario']
+        );
+
+        $respuesta = $query->execute();
+        $query->close();
+
+        return $respuesta;
+    }
+    public function obtenerDatosUsuario($idUsuario) {
+
+    $conexion = Conexion::conectar();
+
+    $sql = "SELECT
+                usuarios.id_usuario AS idUsuario,
+                persona.nombre AS nombrePersona,
+                persona.paterno AS paterno,
+                persona.materno AS materno,
+                persona.telefono AS telefono,
+                persona.correo AS correo,
+                persona.fecha_nacimiento AS fechaNacimiento
+            FROM t_usuarios AS usuarios
+            INNER JOIN t_persona AS persona 
+                ON usuarios.id_persona = persona.id_persona
+            WHERE usuarios.id_usuario = ?";
+
+    $query = $conexion->prepare($sql);
+    $query->bind_param("i", $idUsuario);
+    $query->execute();
+
+    $resultado = $query->get_result();
+
+    if ($resultado->num_rows > 0) {
+        return $resultado->fetch_assoc();
+    } else {
+        return null;
+    }
+}
+public function cambiarEstatus($datos) {
+
+    $conexion = Conexion::conectar();
+
+    $sql = "UPDATE t_usuarios 
+            SET activo = ?
+            WHERE id_usuario = ?";
+
+    $query = $conexion->prepare($sql);
+
+    if (!$query) {
+        return 0;
+    }
+
+    $query->bind_param(
+        "ii",
+        $datos['estatus'],
+        $datos['idUsuario']
+    );
+
+    $respuesta = $query->execute();
+
+    if (!$respuesta) {
+        return 0;
+    }
+
+    $query->close();
+
+    return 1;
+}
+
 }

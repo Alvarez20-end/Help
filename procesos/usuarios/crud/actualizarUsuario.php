@@ -3,22 +3,37 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include "../../../clases/Usuarios.php";
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-$datos = array(
-    "idUsuario" => $_POST['idUsuario'],
-    "paterno" => $_POST['paterno'],
-    "materno" => $_POST['materno'],
-    "nombre" => $_POST['nombre'],
-    "fechaNacimiento" => $_POST['fechaNacimiento'],
-    "sexo" => $_POST['sexo'],
-    "telefono" => $_POST['telefono'],
-    "correo" => $_POST['correo'],
-    "usuario" => $_POST['usuario'],
-    "idRol" => $_POST['idRol'],
-    "ubicacion" => $_POST['ubicacion']
-);
+    include "../../../clases/Usuarios.php";
 
-$usuarios = new Usuarios();
+    // Validar que existan los datos antes de usarlos
+    $datos = array(
+        "idUsuario" => isset($_POST['idUsuario']) ? $_POST['idUsuario'] : '',
+        "paterno" => isset($_POST['paterno']) ? $_POST['paterno'] : '',
+        "materno" => isset($_POST['materno']) ? $_POST['materno'] : '',
+        "nombre" => isset($_POST['nombre']) ? $_POST['nombre'] : '',
+        "fechaNacimiento" => isset($_POST['fechaNacimiento']) ? $_POST['fechaNacimiento'] : '',
+        "sexo" => isset($_POST['sexo']) ? $_POST['sexo'] : '',
+        "telefono" => isset($_POST['telefono']) ? $_POST['telefono'] : '',
+        "correo" => isset($_POST['correo']) ? $_POST['correo'] : '',
+        "usuario" => isset($_POST['usuario']) ? $_POST['usuario'] : '',
+        "idRol" => isset($_POST['idRol']) ? $_POST['idRol'] : '',
+        "ubicacion" => isset($_POST['ubicacion']) ? $_POST['ubicacion'] : ''
+    );
 
-echo $usuarios->actualizarUsuario($datos);
+    // Validación básica
+    if (empty($datos['idUsuario']) || empty($datos['nombre'])) {
+        echo "0"; // error
+        exit();
+    }
+
+    $usuarios = new Usuarios();
+
+    $respuesta = $usuarios->actualizarUsuario($datos);
+
+    echo $respuesta;
+
+} else {
+    echo "Acceso no permitido";
+}

@@ -23,7 +23,18 @@ ORDER BY reporte.fecha DESC";
 $respuesta = mysqli_query($conexion, $sql);
 ?>
 
-<table id="tablaReportesAdminDataTable" class="table table-sm table-bordered dt-responsive nowrap" style="width:100%">
+<!-- 🔥 FILTRO -->
+<div class="mb-2">
+    <select id="filtroEstado" class="form-control form-control-sm" style="width:200px;">
+        <option value="">Todos</option>
+        <option value="Abierto">Abierto</option>
+        <option value="Cerrado">Cerrado</option>
+    </select>
+</div>
+
+<table id="tablaReportesAdminDataTable" 
+class="table table-sm table-bordered dt-responsive nowrap" style="width:100%">
+
 <thead>
 <tr>
 <th>#</th>
@@ -36,6 +47,7 @@ $respuesta = mysqli_query($conexion, $sql);
 <th>Eliminar</th>
 </tr>
 </thead>
+
 <tbody>
 <?php while ($row = mysqli_fetch_array($respuesta)) { ?>
 <tr>
@@ -59,7 +71,7 @@ echo '<span class="badge badge-primary">Abierto</span>';
 <button class="btn btn-info btn-sm"
 onclick="obtenerDatosSolucion(<?php echo $row['idReporte']; ?>)"
 data-toggle="modal" data-target="#modalAgregarSolucionReporte">
-Solución
+<i class="fas fa-tools"></i>
 </button>
 
 <?php if ($row['solucion'] != "") { ?>
@@ -70,7 +82,7 @@ Solución
 <td>
 <button class="btn btn-danger btn-sm"
 onclick="eliminarReporteAdmin(<?php echo $row['idReporte']; ?>)">
-Eliminar
+<i class="fas fa-trash"></i>
 </button>
 </td>
 
@@ -78,3 +90,49 @@ Eliminar
 <?php } ?>
 </tbody>
 </table>
+
+<script>
+$(document).ready(function(){
+
+    let tabla = $('#tablaReportesAdminDataTable').DataTable({
+        destroy: true,
+        responsive: true,
+        language: {
+            url: "../public/datatable/es_es.json"
+        },
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copy',
+                text: '<i class="fas fa-copy"></i> Copiar',
+                className: 'btn btn-secondary btn-sm'
+            },
+            {
+                extend: 'excel',
+                text: '<i class="fas fa-file-excel"></i> Excel',
+                className: 'btn btn-success btn-sm'
+            },
+            {
+                extend: 'pdf',
+                text: '<i class="fas fa-file-pdf"></i> PDF',
+                className: 'btn btn-danger btn-sm'
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Imprimir',
+                className: 'btn btn-dark btn-sm'
+            }
+        ]
+    });
+
+    // 🔥 MOVER BOTONES
+    tabla.buttons().container()
+        .appendTo('#tablaReportesAdminDataTable_wrapper .col-md-6:eq(0)');
+
+    // 🔥 FILTRO POR ESTADO
+    $('#filtroEstado').on('change', function(){
+        tabla.column(5).search(this.value).draw();
+    });
+
+});
+</script>

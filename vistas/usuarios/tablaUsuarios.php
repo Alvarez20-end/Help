@@ -26,32 +26,22 @@ $sql = "SELECT
 $respuesta = mysqli_query($conexion, $sql);
 ?>
 
-<style>
-td.details-control {
-    background: url('https://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
-    cursor: pointer;
-}
-tr.shown td.details-control {
-    background: url('https://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
-}
-</style>
-
-<table class="table table-sm dt-responsive nowrap" id="tablaUsuariosDataTable" style="width:100%">
+<table class="table table-sm table-bordered dt-responsive nowrap" 
+id="tablaUsuariosDataTable" style="width:100%">
 
 <thead>
 <tr>
     <th></th>
-    <th>Apellido paterno</th>
-    <th>Apellido materno</th>
+    <th>Paterno</th>
+    <th>Materno</th>
     <th>Nombre</th>
-    <th>Edad</th>
-    <th>Telefono</th>
+    <th>Teléfono</th>
     <th>Correo</th>
     <th>Usuario</th>
-    <th>Ubicacion</th>
+    <th>Ubicación</th>
     <th>Sexo</th>
     <th>Reset</th>
-    <th>Activar</th>
+    <th>Estatus</th>
     <th>Editar</th>
     <th>Eliminar</th>
 </tr>
@@ -63,46 +53,51 @@ tr.shown td.details-control {
 
 <tr>
 
-    <td class="details-control"></td>
+<td></td>
 
-    <td><?php echo $mostrar['paterno']; ?></td>
-    <td><?php echo $mostrar['materno']; ?></td>
-    <td><?php echo $mostrar['nombrePersona']; ?></td>
-    <td></td>
-    <td><?php echo $mostrar['telefono']; ?></td>
-    <td><?php echo $mostrar['correo']; ?></td>
-    <td><?php echo $mostrar['nombreUsuario']; ?></td>
-    <td><?php echo $mostrar['ubicacion']; ?></td>
-    <td><?php echo $mostrar['sexo']; ?></td>
+<td><?php echo $mostrar['paterno']; ?></td>
+<td><?php echo $mostrar['materno']; ?></td>
+<td><?php echo $mostrar['nombrePersona']; ?></td>
+<td><?php echo $mostrar['telefono']; ?></td>
+<td><?php echo $mostrar['correo']; ?></td>
+<td><?php echo $mostrar['nombreUsuario']; ?></td>
+<td><?php echo $mostrar['ubicacion']; ?></td>
+<td><?php echo $mostrar['sexo']; ?></td>
+<td>
+    <button class="btn btn-success btn-sm"
+    data-toggle="modal" data-target="#modalResetPassword" 
+    onclick="agregarIdUsuarioReset(<?php echo $mostrar['idUsuario'] ?>)">
+        <i class="fas fa-sync"></i>
+    </button>
+</td>
 
-    <td>
-        <button class="btn btn-success btn-sm">
-            <span class="fas fa-exchange-alt"></span>
-        </button>
-    </td>
+<!-- ESTATUS -->
+<td>
+    <button 
+        class="btn btn-sm <?php echo ($mostrar['estatus'] == 1 ? 'btn-success' : 'btn-secondary'); ?>"
+        onclick="cambiarEstatusUsuario(this, <?php echo $mostrar['idUsuario']; ?>, <?php echo $mostrar['estatus']; ?>)">
+        
+        <?php echo ($mostrar['estatus'] == 1 ? 'Activo' : 'Inactivo'); ?>
+    </button>
+</td>
 
-    <td>
-        <?php if ($mostrar['estatus'] == 1) { ?>
-            <button class="btn btn-info btn-sm">Activo</button>
-        <?php } else { ?>
-            <button class="btn btn-secondary btn-sm">Inactivo</button>
-        <?php } ?>
-    </td>
+<!-- EDITAR -->
+<td>
+    <button class="btn btn-warning btn-sm"
+    data-toggle="modal"
+    data-target="#modalActualizarUsuarios"
+    onclick="obtenerDatosUsuario('<?php echo $mostrar['idUsuario']; ?>')">
+        <i class="fas fa-edit"></i>
+    </button>
+</td>
 
-    <td>
-        <button class="btn btn-warning btn-sm"
-        data-toggle="modal"
-        data-target="#modalActualizarUsuarios"
-        onclick="obtenerDatosUsuario('<?php echo $mostrar['idUsuario']; ?>')">
-            Editar
-        </button>
-    </td>
-
-    <td>
-        <button class="btn btn-danger btn-sm">
-            Eliminar
-        </button>
-    </td>
+<!-- ELIMINAR -->
+<td>
+    <button class="btn btn-danger btn-sm"
+        onclick="eliminarUsuario(<?php echo $mostrar['idUsuario']; ?>)">
+        <i class="fas fa-trash"></i>
+    </button>
+</td>
 
 </tr>
 
@@ -112,40 +107,41 @@ tr.shown td.details-control {
 </table>
 
 <script>
-function format(d) {
-    return `
-        <table cellpadding="5" cellspacing="0" border="0">
-            <tr><td><b>Correo:</b></td><td>${d[6]}</td></tr>
-            <tr><td><b>Usuario:</b></td><td>${d[7]}</td></tr>
-            <tr><td><b>Ubicación:</b></td><td>${d[8]}</td></tr>
-        </table>
-    `;
-}
+$(document).ready(function(){
 
-$(document).ready(function() {
-
-    var table = $('#tablaUsuariosDataTable').DataTable({
+    let tabla = $('#tablaUsuariosDataTable').DataTable({
+        destroy: true,
+        responsive: true,
         language: {
             url: "../public/datatable/es_es.json"
         },
         dom: 'Bfrtip',
         buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
+            {
+                extend: 'copy',
+                text: '<i class="fas fa-copy"></i> Copiar',
+                className: 'btn btn-secondary'
+            },
+            {
+                extend: 'excel',
+                text: '<i class="fas fa-file-excel"></i> Excel',
+                className: 'btn btn-success'
+            },
+            {
+                extend: 'pdf',
+                text: '<i class="fas fa-file-pdf"></i> PDF',
+                className: 'btn btn-danger'
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Imprimir',
+                className: 'btn btn-dark'
+            }
         ]
     });
 
-    $('#tablaUsuariosDataTable tbody').on('click', 'td.details-control', function () {
-        var tr = $(this).closest('tr');
-        var row = table.row(tr);
-
-        if (row.child.isShown()) {
-            row.child.hide();
-            tr.removeClass('shown');
-        } else {
-            row.child(format(row.data())).show();
-            tr.addClass('shown');
-        }
-    });
+    tabla.buttons().container()
+        .appendTo('#tablaUsuariosDataTable_wrapper .col-md-6:eq(0)');
 
 });
-</script>
+</script> 

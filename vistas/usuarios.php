@@ -12,13 +12,11 @@ if (isset($_SESSION['usuario'])) {
             <h1 class="fw-light">Administrar Usuarios</h1>
 
             <p class="lead">
-
                 <button class="btn btn-primary"
-        data-toggle="modal"
-        data-target="#modalAgregarUsuarios">
-    agregar usuario
-</button>
-
+                    data-toggle="modal"
+                    data-target="#modalAgregarUsuarios">
+                    agregar usuario
+                </button>
             </p>
 
             <hr>
@@ -32,13 +30,15 @@ if (isset($_SESSION['usuario'])) {
 <?php
 include "usuarios/modalAgregar.php";
 include "usuarios/modalActualizar.php";
+include "usuarios/modalResetPassword.php";
 include "footer.php";
 ?>
 
+<!-- 🔥 SOLO AQUÍ -->
 <script src="../public/js/usuarios/usuarios.js"></script>
 
 <?php
 } else {
-header("location:../index.html");
+    header("location:../index.html");
 }
 ?>
