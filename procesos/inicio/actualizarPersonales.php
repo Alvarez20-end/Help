@@ -1,6 +1,14 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 session_start();
+
+if (!isset($_SESSION['usuario'])) {
+    echo 0;
+    exit();
+}
+
 $idUsuario = $_SESSION['usuario']['id'];
 
 include "../../clases/Inicio.php";
@@ -17,5 +25,3 @@ $datos = array(
 
 $Inicio = new Inicio();
 echo $Inicio->actualizarPersonales($datos);
-
-?>

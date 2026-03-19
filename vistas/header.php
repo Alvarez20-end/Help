@@ -15,8 +15,9 @@
 <!-- DataTables -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
-<link rel="stylesheet" href="../public/fontawesome/css/all.css">
 
+<!-- FontAwesome -->
+<link rel="stylesheet" href="../public/fontawesome/css/all.css">
 
 <title>Help-Desk</title>
 </head>
@@ -43,25 +44,25 @@
 <?php if(isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] == 1) { ?>
 
 <li class="nav-item">
-<a class="nav-link" href="misDispositivos.php">mis dispositivos</a>
+<a class="nav-link" href="misDispositivos.php">Mis dispositivos</a>
 </li>
 
 <li class="nav-item">
-<a class="nav-link" href="misReportes.php">reportes soporte</a>
+<a class="nav-link" href="misReportes.php">Reportes soporte</a>
 </li>
 
 <?php } else if(isset($_SESSION['usuario']) && $_SESSION['usuario']['rol'] == 2) { ?>
 
 <li class="nav-item">
-<a class="nav-link" href="usuarios.php">usuarios</a>
+<a class="nav-link" href="usuarios.php">Usuarios</a>
 </li>
 
 <li class="nav-item">
-<a class="nav-link" href="asignacion.php">asignacion</a>
+<a class="nav-link" href="asignacion.php">Asignación</a>
 </li>
 
 <li class="nav-item">
-<a class="nav-link" href="reportes.php">reportes</a>
+<a class="nav-link" href="reportes.php">Reportes</a>
 </li>
 
 <?php } ?>
@@ -72,11 +73,20 @@ Usuario: <?php echo $_SESSION['usuario']['nombre']; ?>
 </a>
 
 <div class="dropdown-menu">
+
 <a class="dropdown-item" href="#"
-  data-toggle="modal"
- data-target="#modalActualizarDatosPersonales">editar datos</a>
+   data-toggle="modal"
+   data-target="#modalActualizarDatosPersonales"
+   onclick="obtenerDatosPersonalesInicio(<?php echo $_SESSION['usuario']['id']; ?>)">
+   Editar datos
+</a>
+
 <div class="dropdown-divider"></div>
-<a class="dropdown-item" href="../procesos/usuarios/login/salir.php">salir</a>
+
+<a class="dropdown-item" href="../procesos/usuarios/login/salir.php">
+   Salir
+</a>
+
 </div>
 
 </li>
@@ -85,6 +95,7 @@ Usuario: <?php echo $_SESSION['usuario']['nombre']; ?>
 </div>
 </div>
 </nav>
+
 <?php
 include "inicio/modalActualizarDatosPersonales.php";
 ?>

@@ -2,6 +2,7 @@
 include "Conexion.php";
 
 class Inicio extends Conexion {
+
     public function actualizarPersonales($datos) {
         $conexion = Conexion::conectar();
         $idUsuario = $datos['idUsuario'];
