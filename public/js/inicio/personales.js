@@ -14,4 +14,4 @@ function datosPersonalesInicio(idUsuario) {
             $('#edad').text(respuesta['fechaNacimiento']);
         }
     });
-}
+} 

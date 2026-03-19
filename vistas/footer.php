@@ -12,6 +12,7 @@
 
 <!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../public/js/inicio/actualizarPersonales.js"></script>
 
 </body>
 </html>

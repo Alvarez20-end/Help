@@ -72,7 +72,9 @@ Usuario: <?php echo $_SESSION['usuario']['nombre']; ?>
 </a>
 
 <div class="dropdown-menu">
-<a class="dropdown-item" href="#">editar datos</a>
+<a class="dropdown-item" href="#"
+  data-toggle="modal"
+ data-target="#modalActualizarDatosPersonales">editar datos</a>
 <div class="dropdown-divider"></div>
 <a class="dropdown-item" href="../procesos/usuarios/login/salir.php">salir</a>
 </div>
@@ -83,3 +85,6 @@ Usuario: <?php echo $_SESSION['usuario']['nombre']; ?>
 </div>
 </div>
 </nav>
+<?php
+include "inicio/modalActualizarDatosPersonales.php";
+?>
