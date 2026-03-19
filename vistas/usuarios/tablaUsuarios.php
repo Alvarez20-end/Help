@@ -113,7 +113,11 @@ $respuesta = mysqli_query($conexion, $sql);
 </table>
 
 <script>
-$(document).ready(function(){
-    $('#tablaUsuariosDataTable').DataTable();
-});
+    $(document).ready(function() {
+        $('#tablaAsignacionDataTable').DataTable({
+            language: {
+                url: "../public/datatable/es_es.json"
+            }
+        });
+    });
 </script>
