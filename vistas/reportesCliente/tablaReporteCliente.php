@@ -36,7 +36,7 @@ if (!$respuesta) {
 }
 ?>
 
-<table class="table table-sm dt-responsive nowrap"
+<table class="table table-sm table-bordered dt-responsive nowrap"
 style="width:100%" id="tablaReportesClienteDataTable">
     <thead>
         <th>#</th>
@@ -59,15 +59,15 @@ style="width:100%" id="tablaReportesClienteDataTable">
             <td>
                 <?php
                 if ($mostrar['estatus'] == 1) {
-                    echo '<div class="alert alert-danger">Abierto</div>';
+                    echo '<span class="badge badge-success">Success</span>';
                 } else {
-                    echo '<div class="alert alert-success">Cerrado</div>';
+                    echo '<span class="badge badge-success">Success</span>';
                 }
                 ?>
             </td>
             <td><?php echo $mostrar['solucion']; ?></td>
             <td>
-                <button class="btn btn-danger btn-sm">X</button>
+                <button class="btn btn-danger btn-sm">Eliminar</button>
             </td>
         </tr>
         <?php } ?>
