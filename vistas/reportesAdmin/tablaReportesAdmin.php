@@ -18,72 +18,63 @@ INNER JOIN t_persona AS persona
     ON usuario.id_persona = persona.id_persona
 INNER JOIN t_cat_equipo AS equipo 
     ON reporte.id_equipo = equipo.id_equipo
-    ORDER BY reporte.fecha DESC";
+ORDER BY reporte.fecha DESC";
 
 $respuesta = mysqli_query($conexion, $sql);
 ?>
 
-<table id="tablaReportesAdminDataTable" class="table table-sm dt-responsive nowrap" style="width:100%">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Persona</th>
-            <th>Equipo</th>
-            <th>Fecha</th>
-            <th>Descripción</th>
-            <th>Estatus</th>
-            <th>Solución</th>
-            <th>Eliminar</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php while ($row = mysqli_fetch_array($respuesta)) { ?>
-        <tr>
-            <td><?php echo $row['idReporte']; ?></td>
-            <td><?php echo $row['nombrePersona']; ?></td>
-            <td><?php echo $row['nombreEquipo']; ?></td>
-            <td><?php echo $row['fecha']; ?></td>
-            <td><?php echo $row['problema']; ?></td>
+<table id="tablaReportesAdminDataTable" class="table table-sm table-bordered dt-responsive nowrap" style="width:100%">
+<thead>
+<tr>
+<th>#</th>
+<th>Persona</th>
+<th>Equipo</th>
+<th>Fecha</th>
+<th>Descripción</th>
+<th>Estatus</th>
+<th>Solución</th>
+<th>Eliminar</th>
+</tr>
+</thead>
+<tbody>
+<?php while ($row = mysqli_fetch_array($respuesta)) { ?>
+<tr>
+<td><?php echo $row['idReporte']; ?></td>
+<td><?php echo $row['nombrePersona']; ?></td>
+<td><?php echo $row['nombreEquipo']; ?></td>
+<td><?php echo $row['fecha']; ?></td>
+<td><?php echo $row['problema']; ?></td>
 
-            <td>
-                <?php
-                if ($row['estatus'] == 0) {
-                    echo '<span class="badge badge-success">Cerrado</span>';
-                } else {
-                    echo '<span class="badge badge-primary">Abierto</span>';
-                }
-                ?>
-            </td>
+<td>
+<?php
+if ($row['estatus'] == 0) {
+echo '<span class="badge badge-success">Cerrado</span>';
+} else {
+echo '<span class="badge badge-primary">Abierto</span>';
+}
+?>
+</td>
 
-            <td>
-                <button class="btn btn-info btn-sm"
-                    onclick="obtenerDatosSolucion(<?php echo $row['idReporte']; ?>)"
-                    data-toggle="modal" data-target="#modalAgregarSolucionReporte">
-                    Solución
-                </button>
+<td>
+<button class="btn btn-info btn-sm"
+onclick="obtenerDatosSolucion(<?php echo $row['idReporte']; ?>)"
+data-toggle="modal" data-target="#modalAgregarSolucionReporte">
+Solución
+</button>
 
-                <?php if ($row['solucion'] != "") { ?>
-                    <div><small><?php echo $row['solucion']; ?></small></div>
-                <?php } ?>
-            </td>
+<?php if ($row['solucion'] != "") { ?>
+<div><small><?php echo $row['solucion']; ?></small></div>
+<?php } ?>
+</td>
 
-            <td>
-                <button class="btn btn-danger btn-sm"
-                    onclick="eliminarReporteAdmin(<?php echo $row['idReporte']; ?>)">
-                    Eliminar
-                </button>
-            </td>
-        </tr>
-        <?php } ?>
-    </tbody>
+<td>
+<button class="btn btn-danger btn-sm"
+onclick="eliminarReporteAdmin(<?php echo $row['idReporte']; ?>)">
+Eliminar
+</button>
+</td>
+
+</tr>
+<?php } ?>
+</tbody>
 </table>
-
-<script>
-    $(document).ready(function() {
-        $('#tablaAsignacionDataTable').DataTable({
-            language: {
-                url: "../public/datatable/es_es.json"
-            }
-        });
-    });
-</script>

@@ -1,12 +1,11 @@
 <?php session_start(); ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Bootstrap -->
+<!-- Bootstrap 4 -->
 <link rel="stylesheet" href="../public/bootstrap/bootstrap.min.css">
 
 <!-- Estilos -->
@@ -15,6 +14,9 @@
 <!-- DataTables -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
+
+<!-- Buttons -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap4.min.css">
 
 <!-- FontAwesome -->
 <link rel="stylesheet" href="../public/fontawesome/css/all.css">
@@ -60,12 +62,12 @@
 
 <li class="nav-item">
 <a class="nav-link" href="usuarios.php">
-   <span class="fas fa-users-cog"></span>Usuarios</a>
+   <span class="fas fa-users-cog"></span> Usuarios</a>
 </li>
 
 <li class="nav-item">
 <a class="nav-link" href="asignacion.php">
-   <span class="fas fa-address-book"></span>Asignación</a>
+   <span class="fas fa-address-book"></span> Asignación</a>
 </li>
 
 <li class="nav-item">
@@ -76,8 +78,17 @@
 <?php } ?>
 
 <li class="nav-item dropdown">
-<a style="color:red" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-<span class="fas fa-user-ninja"></span> Usuario: <?php echo $_SESSION['usuario']['nombre']; ?>
+<a class="nav-link dropdown-toggle"
+   href="#"
+   id="navbarDropdown"
+   role="button"
+   data-toggle="dropdown"
+   aria-haspopup="true"
+   aria-expanded="false"
+   style="color:red">
+   
+   <span class="fas fa-user-ninja"></span>
+   Usuario: <?php echo $_SESSION['usuario']['nombre']; ?>
 </a>
 
 <div class="dropdown-menu">

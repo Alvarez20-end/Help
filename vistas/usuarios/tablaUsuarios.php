@@ -19,20 +19,28 @@ $sql = "SELECT
             persona.sexo AS sexo,
             persona.correo AS correo,
             persona.telefono AS telefono
-        FROM
-            t_usuarios AS usuarios
-        INNER JOIN
-            t_cat_roles AS roles ON usuarios.id_rol = roles.id_rol
-        INNER JOIN
-            t_persona AS persona ON usuarios.id_persona = persona.id_persona";
+        FROM t_usuarios AS usuarios
+        INNER JOIN t_cat_roles AS roles ON usuarios.id_rol = roles.id_rol
+        INNER JOIN t_persona AS persona ON usuarios.id_persona = persona.id_persona";
 
 $respuesta = mysqli_query($conexion, $sql);
 ?>
+
+<style>
+td.details-control {
+    background: url('https://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('https://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
+}
+</style>
 
 <table class="table table-sm dt-responsive nowrap" id="tablaUsuariosDataTable" style="width:100%">
 
 <thead>
 <tr>
+    <th></th>
     <th>Apellido paterno</th>
     <th>Apellido materno</th>
     <th>Nombre</th>
@@ -42,7 +50,7 @@ $respuesta = mysqli_query($conexion, $sql);
     <th>Usuario</th>
     <th>Ubicacion</th>
     <th>Sexo</th>
-    <th>Reset Password</th>
+    <th>Reset</th>
     <th>Activar</th>
     <th>Editar</th>
     <th>Eliminar</th>
@@ -54,6 +62,8 @@ $respuesta = mysqli_query($conexion, $sql);
 <?php while ($mostrar = mysqli_fetch_array($respuesta)) { ?>
 
 <tr>
+
+    <td class="details-control"></td>
 
     <td><?php echo $mostrar['paterno']; ?></td>
     <td><?php echo $mostrar['materno']; ?></td>
@@ -71,23 +81,12 @@ $respuesta = mysqli_query($conexion, $sql);
         </button>
     </td>
 
-
     <td>
-
         <?php if ($mostrar['estatus'] == 1) { ?>
-
-            <button class="btn btn-info btn-sm">
-                Activo
-            </button>
-
+            <button class="btn btn-info btn-sm">Activo</button>
         <?php } else { ?>
-
-            <button class="btn btn-info btn-sm">
-                Inactivo
-            </button>
-
+            <button class="btn btn-secondary btn-sm">Inactivo</button>
         <?php } ?>
-
     </td>
 
     <td>
@@ -113,11 +112,40 @@ $respuesta = mysqli_query($conexion, $sql);
 </table>
 
 <script>
-    $(document).ready(function() {
-        $('#tablaAsignacionDataTable').DataTable({
-            language: {
-                url: "../public/datatable/es_es.json"
-            }
-        });
+function format(d) {
+    return `
+        <table cellpadding="5" cellspacing="0" border="0">
+            <tr><td><b>Correo:</b></td><td>${d[6]}</td></tr>
+            <tr><td><b>Usuario:</b></td><td>${d[7]}</td></tr>
+            <tr><td><b>Ubicación:</b></td><td>${d[8]}</td></tr>
+        </table>
+    `;
+}
+
+$(document).ready(function() {
+
+    var table = $('#tablaUsuariosDataTable').DataTable({
+        language: {
+            url: "../public/datatable/es_es.json"
+        },
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
     });
+
+    $('#tablaUsuariosDataTable tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row(tr);
+
+        if (row.child.isShown()) {
+            row.child.hide();
+            tr.removeClass('shown');
+        } else {
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+        }
+    });
+
+});
 </script>
